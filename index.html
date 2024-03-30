@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Rubik Cube</title>
+  <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans+SC' rel='stylesheet' type='text/css'>
+  <link href="style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+
+  <ul id="controls">
+    <li><a href="#shuffle" id="button-shuffle">Shuffle</a></li>
+    <li><a href="#solve" id="button-solve">Solve</a></li>
+    <li><a href="#undo" id="button-undo">Undo</a></li>
+    <li><a href="#reset" id="button-reset">Reset</a></li>
+    <li>
+      <label>Size</label>
+      <select id="select-size">
+        <option value="3">3x3</option>
+        <option value="4">4x4</option>
+        <option value="5">5x5</option>
+        <!-- we can go bigger but it gets unwieldy! -->
+      </select>
+    </li>
+  </ul>
+
+  <div id="scene"></div>
+
+
+
+  <script src="lib/jquery-2.0.3.js"></script>
+  <script src="lib/three.js"></script>
+  <script src="lib/OrbitControls.js"></script>
+  <script src='lib/threex.domevent.js'></script>
+  <script src='lib/threex.domevent.object3d.js'></script>
+
+  <script src="rubik.js"></script>
+  <script>
+
+    $(function() {
+      function init(dimensions) {
+        dimensions = +(dimensions) || 3;
+
+        var element = $("#scene").empty();
+        var rubik = new Rubik(element, dimensions);
+
+        $("#button-shuffle").on('click', function(e) { e.preventDefault(); rubik.shuffle() });
+        $("#button-solve").on('click', function(e) { e.preventDefault(); rubik.solve(); });
+        $("#button-undo").on('click', function(e) { e.preventDefault(); rubik.undo(); });
+        $("#button-reset").on('click', function(e) { e.preventDefault(); init(); });        
+        $("#select-size").on('change', function() { init($(this).val()) });        
+      };
+
+      init();
+
+      
+    });
+
+  </script>
+
+</body>
+
+</html>
